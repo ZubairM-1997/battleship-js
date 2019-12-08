@@ -8,6 +8,7 @@ div#board{
 	height: 500px;
 	margin: auto;
 	background: url("board.jpg") no-repeat;
+	background-size: 500;
 
 }
 
@@ -19,15 +20,18 @@ div#messageArea{
 }
 
 table{
-	position: absolute;
-	left: 173px;
-	top: 98px;
-	border-spacing: 0px;
+	position: relative;
+	width: 420px;
+	height: 420px;
+	top: 60px;
+	left: 12%;
+
+
 }
 
 td{
-	width: 45px;
-	height: 45px;
+	width: 25px;
+	height: 25px;
 }
 
 form{
