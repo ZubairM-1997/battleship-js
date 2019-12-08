@@ -52,4 +52,5 @@ form input{
 
 .miss{
 	background: url("miss.png") no-repeat center center;
+	background-size: 45px 50px;
 }
