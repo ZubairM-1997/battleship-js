@@ -38,12 +38,14 @@ let model = {
 	fire: function(guess){
 		console.log(guess)
 
+
 		//takes a users guess as an argument
 		for (let i=0; i < this.ships.length; i++){
 			// loops through the ships array
 			let ship = this.ships[i]
-
 			console.log(this.ships[i])
+
+
 			let locations = ship.locations
 
 			//if user's guess is found in array
@@ -51,15 +53,13 @@ let model = {
 			console.log(index)
 
 
-
-
 			if (index >= 0){
+				found = true;
 				// We have a hit!
 				//setting the value at index to hit
 				ship.hits[index] = "hit"
 				view.displayHit(guess)
 				view.displayMessage("HIT!")
-
 
 				if (this.isSunk(ship)){
 					//passing each ship to the isSunk method which checks if it has sunk or not
@@ -67,13 +67,16 @@ let model = {
 				}
 
 				break;
-			} else {
 
+
+			} else {
 				view.displayMiss(guess);
 				view.displayMessage("You missed!")
-				return false
+				continue;
 
 			}
+
+
 
 
 
