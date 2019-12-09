@@ -30,9 +30,9 @@ let model = {
 	shipsSunk: 0,
 
 	ships: [
-		{locations: ["06", "16", "26"], hits: ["","",""]},
-		{locations: ["24", "34", "44"], hits: ["","",""]},
-		{locations: ["10", "11", "12"], hits: ["","",""]}
+		{locations: ["0", "0", "0"], hits: ["","",""]},
+		{locations: ["0", "0", "0"], hits: ["","",""]},
+		{locations: ["0", "0", "0"], hits: ["","",""]}
 	],
 
 	fire: function(guess){
@@ -75,11 +75,6 @@ let model = {
 				continue;
 
 			}
-
-
-
-
-
 		}
 	},
 
@@ -92,6 +87,68 @@ let model = {
 		}
 		//otherwise ship has sunk
 		return true;
+	},
+
+
+	generateShip: function(){
+		// creates an array with random locations for one ship without worrying about overlap with other ships
+		let direction = Math.floor(Math.random() *2)
+		let row;
+		let col;
+
+		if (direction === 1){
+			// generate a starting location for horizontal ship
+			row = Math.floor(Math.random() * this.boardSize);
+			col = Math.floor(Math.random() * (this.boardSize - (this.shipsLength + 1)))
+
+		} else {
+			// generate a starting location for vertical ship
+			row =  Math.floor(Math.random() * (this.boardSize - (this.shipsLength + 1)))
+			col = Math.floor(Math.random() * this.boardSize);
+
+		}
+
+
+		let newShipLocations = [];
+		for (let i = 0; i < this.shipsLength; i++){
+			if (direction === 1){
+				// add location to array for new horizontal ship
+				newShipLocations.push(row + "" + (col + i));
+
+
+			} else {
+				// add location to array for new vertical ship
+				newShipLocations.push((row + i) + "" + col);
+
+
+			}
+
+		}
+
+		return newShipLocations;
+	},
+	generateShipLocations: function(){
+		let locations;
+		for (let i = 0; i < this.numShips; i++){
+			do {
+				//for each ship we invoke the generateShip method and set it to the locations variable
+				locations = this.generateShip()
+			} while (this.collision(locations))
+			//while to see if the locations overlap with any existing ships on the board
+			this.ships[i].locations = locations
+			//we assign the locations that were generated to the models array
+		}
+	},
+	collision: function(locations){
+		for (let i = 0; i < this.numShips; i++){
+			let ship = this.ships[i]
+			for (let j = 0; j < locations.length; j++){
+				if (ship.locations.indexOf(locations[j] >= 0)){
+					return true
+				}
+			}
+		}
+		return false;
 	}
 
 }
@@ -158,6 +215,9 @@ function init(){
 			return false
 		}
 	})
+
+	model.generateShipLocations();
+	console.log(model.ships)
 }
 
 window.onload = init();
