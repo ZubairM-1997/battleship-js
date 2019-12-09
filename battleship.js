@@ -36,15 +36,23 @@ let model = {
 	],
 
 	fire: function(guess){
+		console.log(guess)
 
 		//takes a users guess as an argument
-		for (let i=0; i < this.numShips; i++){
+		for (let i=0; i < this.ships.length; i++){
 			// loops through the ships array
 			let ship = this.ships[i]
+
+			console.log(this.ships[i])
 			let locations = ship.locations
 
 			//if user's guess is found in array
 			let index = locations.indexOf(guess);
+			console.log(index)
+
+
+
+
 			if (index >= 0){
 				// We have a hit!
 				//setting the value at index to hit
@@ -57,11 +65,17 @@ let model = {
 					//passing each ship to the isSunk method which checks if it has sunk or not
 					this.shipsSunk++
 				}
+
+				break;
+			} else {
+
+				view.displayMiss(guess);
+				view.displayMessage("You missed!")
+				return false
+
 			}
 
-			view.displayMiss(guess);
-			view.displayMessage("You missed!")
-			return false
+
 
 		}
 	},
@@ -86,10 +100,12 @@ let controller = {
 	processGuess: function(guess){
 		console.log(guess)
 		let location = parseGuess(guess);
+
 		console.log(location)
 		if (location){
 			this.guesses++;
 			let hit = model.fire(location)
+
 			if (hit && model.shipsSunk === model.numShips){
 				view.displayMessage(`You sank all my battleships in ${this.guesses} guesses`)
 			}
